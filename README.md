@@ -45,3 +45,6 @@ Currently the script takes no commandline options
 - Currently installed RPMs list
 - Contents of the yum config file
 - Contents of the yum repository files
+- Contents of */etc/passwd*
+- Contents of */etc/group*
+- Contents of */etc/shadow*

@@ -24,32 +24,32 @@ echo "############################################" >> $output_file
 echo "Hostname: `hostname`" >> $output_file
 echo "Distribution: `cat /etc/redhat-release`" >> $output_file
 echo "Kernel: `uname -a`" >> $output_file
-echo ""
-echo ""
+echo "" >> $output_file
+echo "" >> $output_file
 
 # User information
 echo "############################################" >> $output_file
 echo "## User Information" >> $output_file
 echo "############################################" >> $output_file
 cat /etc/passwd >> $output_file
-echo ""
-echo ""
+echo "" >> $output_file
+echo "" >> $output_file
 
 # Group information
 echo "############################################" >> $output_file
 echo "## Group Information" >> $output_file
 echo "############################################" >> $output_file
 cat /etc/group >> $output_file
-echo ""
-echo ""
+echo "" >> $output_file
+echo "" >> $output_file
 
 # Shadow information
 echo "############################################" >> $output_file
 echo "## Shadow file" >> $output_file
 echo "############################################" >> $output_file
 cat /etc/shadow >> $output_file
-echo ""
-echo ""
+echo "" >> $output_file
+echo "" >> $output_file
 
 # Filesystem Information
 echo "############################################" >> $output_file

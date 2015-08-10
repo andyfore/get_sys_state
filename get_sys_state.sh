@@ -27,6 +27,30 @@ echo "Kernel: `uname -a`" >> $output_file
 echo ""
 echo ""
 
+# User information
+echo "############################################" >> $output_file
+echo "## User Information" >> $output_file
+echo "############################################" >> $output_file
+cat /etc/passwd >> $output_file
+echo ""
+echo ""
+
+# Group information
+echo "############################################" >> $output_file
+echo "## Group Information" >> $output_file
+echo "############################################" >> $output_file
+cat /etc/group >> $output_file
+echo ""
+echo ""
+
+# Shadow information
+echo "############################################" >> $output_file
+echo "## Shadow file" >> $output_file
+echo "############################################" >> $output_file
+cat /etc/shadow >> $output_file
+echo ""
+echo ""
+
 # Filesystem Information
 echo "############################################" >> $output_file
 echo "## /etc/fstab" >> $output_file

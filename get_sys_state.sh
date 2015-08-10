@@ -24,6 +24,8 @@ echo "############################################" >> $output_file
 echo "Hostname: `hostname`" >> $output_file
 echo "Distribution: `cat /etc/redhat-release`" >> $output_file
 echo "Kernel: `uname -a`" >> $output_file
+echo ""
+echo ""
 
 # Filesystem Information
 echo "############################################" >> $output_file
@@ -39,7 +41,7 @@ echo "## mounted filesystems" >> $output_file
 echo "############################################" >> $output_file
 echo "" >> $output_file
 echo "" >> $output_file
-echo `df -hT` >> $output_file
+df -hT | tee -a $output_file
 echo "" >> $output_file
 echo "" >> $output_file
 
@@ -58,7 +60,7 @@ echo "## running iptables configuration" >> $output_file
 echo "############################################" >> $output_file
 echo "" >> $output_file
 echo "" >> $output_file
-echo `/sbin/iptables -L -v -n` >> $output_file
+/sbin/iptables -L -v -n | tee -a $output_file
 echo "" >> $output_file
 echo "" >> $output_file
 echo "############################################" >> $output_file
@@ -92,7 +94,7 @@ echo "## ip address info" >> $output_file
 echo "############################################" >> $output_file
 echo "" >> $output_file
 echo "" >> $output_file
-echo `ip addr` >> $output_file
+ip addr | tee -a $output_file
 echo "" >> $output_file
 echo "" >> $output_file
 echo "############################################" >> $output_file
@@ -100,7 +102,7 @@ echo "## running routing table" >> $output_file
 echo "############################################" >> $output_file
 echo "" >> $output_file
 echo "" >> $output_file
-echo `ip ro` >> $output_file
+ip ro | tee -a $output_file
 echo "" >> $output_file
 echo "" >> $output_file
 echo "############################################" >> $output_file
@@ -108,7 +110,7 @@ echo "## listening ports" >> $output_file
 echo "############################################" >> $output_file
 echo "" >> $output_file
 echo "" >> $output_file
-echo `netstat -ntlp` >> $output_file
+netstat -ntlp | tee -a $output_file
 echo "" >> $output_file
 echo "" >> $output_file
 echo "############################################" >> $output_file
@@ -142,7 +144,7 @@ echo "## installed package listing" >> $output_file
 echo "############################################" >> $output_file
 echo "" >> $output_file
 echo "" >> $output_file
-echo `rpm -qa` >> $output_file
+rpm -qa | tee -a $output_file
 echo "" >> $output_file
 echo "" >> $output_file
 

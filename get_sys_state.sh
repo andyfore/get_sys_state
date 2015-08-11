@@ -208,7 +208,7 @@ echo "## installed package listing" >> $output_file
 echo "############################################" >> $output_file
 echo "" >> $output_file
 echo "" >> $output_file
-rpm -qa | tee -a $output_file
+rpm -qa | sort | tee -a $output_file
 echo "" >> $output_file
 echo "" >> $output_file
 

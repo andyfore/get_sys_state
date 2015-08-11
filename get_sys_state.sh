@@ -10,6 +10,16 @@
 # Purpose: stores the preset full path to the output file
 output_file="/opt/system_state_`date +%Y%m%d`"
 
+## Non-Static Variables
+# Variable name: os_type
+# Purposes: holds the type of OS on the system for use in 
+#           determining what commands to run
+os_type=""
+
+# Get the OS type
+# Currently we can differentiate between AIX, Linux and Solaris
+os_type=`uname`
+
 # Create system state file
 touch $output_file
 
@@ -22,8 +32,29 @@ echo "############################################" >> $output_file
 echo "## Basic System Info" >> $output_file
 echo "############################################" >> $output_file
 echo "Hostname: `hostname`" >> $output_file
-echo "Distribution: `cat /etc/redhat-release`" >> $output_file
-echo "Kernel: `uname -a`" >> $output_file
+case $os_type
+	Linux) echo "Running: $os_type" >> $output_file
+           if [ -f /etc/redhat-release ] then echo "RedHat-Based Distro: `cat /etc/redhat-release`" fi >> $output_file
+           if [ -f /etc/debian_version ] then echo "Debian-Based Distro: `cat /etc/debian_version`" fi >> $output_file
+           if [ -f /etc/gentoo-release ] then echo "Gentoo-Based Distro: `cat /etc/gentoo-release`" fi >> $output_file
+           echo "Kernel: `uname -a`" >> $output_file
+           ;;
+    AIX)   echo "Running: $os_type" >> $output_file
+           echo "Version: `uname -v`" >> $output_file
+           echo "Release: `uname -r`" >> $output_file
+           echo "Base System Level: `oslevel`" >> $output_file
+           echo "Highest TL: `oslevel -r`" >> $output_file
+           echo "Highest Service Pack: `oslevel -s`" >> $output_file
+           ;;
+    SunOS) echo "Running: $os_type" >> $output_file
+           echo "Processor type: `isainfo -kv`" >> $output_file
+           echo "Version: `uname -r`" >> $output_file
+           echo "Kernel: `uname -a`" >> $output_file
+           if [ `uname -r` == "5.11" ]; then
+                pkg info kernel | tee -a $output_file
+           fi
+           ;;
+esac
 echo "" >> $output_file
 echo "" >> $output_file
 

@@ -233,3 +233,17 @@ do
     echo "" >> $output_file
     echo "" >> $output_file
 done
+
+# Get the crontabs for all users
+echo "############################################" >> $output_file
+echo "## user crontabs" >> $output_file
+echo "############################################" >> $output_file
+echo "" >> $output_file
+echo "" >> $output_file
+for i in `ls -1 /var/spool/cron/`
+do
+    echo "-++- $i -++-" >> $output_file
+    cat $i >> $output_file
+    echo "" >> $output_file
+    echo "" >> $output_file
+done

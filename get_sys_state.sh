@@ -32,7 +32,7 @@ echo "############################################" >> $output_file
 echo "## Basic System Info" >> $output_file
 echo "############################################" >> $output_file
 echo "Hostname: `hostname`" >> $output_file
-case $os_type
+case $os_type in
 	Linux) echo "Running: $os_type" >> $output_file
            if [ -f /etc/redhat-release ]
            then

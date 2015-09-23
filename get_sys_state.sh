@@ -247,3 +247,21 @@ do
     echo "" >> $output_file
     echo "" >> $output_file
 done
+
+# Get the MPIO config
+echo "############################################" >> $output_file
+echo "## /etc/multipath.conf" >> $output_file
+echo "############################################" >> $output_file
+echo "" >> $output_file
+echo "" >> $output_file
+cat /etc/multipath.conf >> $output_file
+echo "" >> $output_file
+echo "" >> $output_file
+
+# Get the multipath udev rules config
+echo "############################################" >> $output_file
+echo "## /etc/udev/rules.d/96-multipath.rules" >> $output_file
+echo "############################################" >> $output_file
+echo "" >> $output_file
+echo "" >> $output_file
+cat /etc/udev/rules.d/96-multipath.rules >> $output_file

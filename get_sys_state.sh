@@ -92,65 +92,163 @@ echo "" >> $output_file
 echo "" >> $output_file
 
 # Filesystem Information
+case $os_type in
+	Linux)   echo "############################################" >> $output_file
+           echo "## /etc/fstab" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           cat /etc/fstab >> $output_file
+           ;;
+    AIX)   echo "############################################" >> $output_file
+           echo "## /etc/filesystems" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           cat /etc/filesystems >> $output_file
+           ;;
+    SunOS) echo "############################################" >> $output_file
+           echo "## /etc/vfstab" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           cat /etc/vfstab >> $output_file
+           ;;
+esac
+echo "" >> $output_file
+echo "" >> $output_file
 echo "############################################" >> $output_file
-echo "## /etc/fstab" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-cat /etc/fstab >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-echo "############################################" >> $output_file
-echo "## mounted filesystems" >> $output_file
+echo "## Mounted Filesystems" >> $output_file
 echo "############################################" >> $output_file
 echo "" >> $output_file
 echo "" >> $output_file
 df -hT | tee -a $output_file
 echo "" >> $output_file
 echo "" >> $output_file
-
+# Filesystem Usage
+case $os_type in
+	Linux)   echo "############################################" >> $output_file
+           echo "## Filesystem Usage" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           df -hT | tee -a $output_file
+           ;;
+    AIX)   echo "############################################" >> $output_file
+           echo "## Filesystem Usage" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           df -Pg | tee -a $output_file
+           ;;
+    SunOS) echo "############################################" >> $output_file
+           echo "## Filesystem Usage" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           df -h | tee -a $output_file
+           ;;
+esac
+echo "" >> $output_file
+echo "" >> $output_file
 # Firewall Info
-echo "############################################" >> $output_file
-echo "## Firewall Service State" >> $output_file
-echo "############################################" >> $output_file
+case $os_type in
+	Linux)   echo "############################################" >> $output_file
+           echo "## Firewall Service State" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           echo `chkconfig iptables --list` >> $output_file
+           echo `chkconfig ip6tables --list` >> $output_file
+           ;;
+    AIX)   echo "############################################" >> $output_file
+           echo "## Firewall Service State" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           echo `lslpp -l | grep ipf` >> $output_file
+           ;;
+    SunOS) echo "############################################" >> $output_file
+           echo "## Firewall Service State" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           echo `svcs -a | grep ipfilter` >> $output_file
+           ;;
+esac
 echo "" >> $output_file
 echo "" >> $output_file
-echo `chkconfig iptables --list` >> $output_file
-echo `chkconfig ip6tables --list` >> $output_file
+case $os_type in
+	Linux)   echo "" >> $output_file
+           echo "" >> $output_file
+           echo "############################################" >> $output_file
+           echo "## running iptables configuration" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           /sbin/iptables -L -v -n | tee -a $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           echo "############################################" >> $output_file
+           echo "## iptables config file" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           cat /etc/sysconfig/iptables-config >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           echo "############################################" >> $output_file
+           echo "## iptables file" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           cat /etc/sysconfig/iptables >> $output_file
+           ;;
+    AIX)   echo "############################################" >> $output_file
+           echo "## Firewall Configuration" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           echo `lsfilt` >> $output_file
+           ;;
+    SunOS) echo "############################################" >> $output_file
+           echo "## Firewall Configuration" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           cat /etc/ipf/ipf.conf >> $output_file
+           ;;
+esac
 echo "" >> $output_file
 echo "" >> $output_file
-echo "############################################" >> $output_file
-echo "## running iptables configuration" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-/sbin/iptables -L -v -n | tee -a $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-echo "############################################" >> $output_file
-echo "## iptables config file" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-cat /etc/sysconfig/iptables-config >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-echo "############################################" >> $output_file
-echo "## iptables file" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-cat /etc/sysconfig/iptables >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-
 # Network Configuration
-echo "############################################" >> $output_file
-echo "## /etc/sysconfig/network" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-cat /etc/sysconfig/network >> $output_file
+case $os_type in
+	Linux)   echo "############################################" >> $output_file
+           echo "## Generic Network Info" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           cat /etc/sysconfig/network >> $output_file
+           ;;
+    AIX)   echo "############################################" >> $output_file
+           echo "## Generic Network Info" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           netstat -r | grep default >> $output_file
+           echo `hostname` >> $output_file
+           echo `domainname` >> $output_file
+           ;;
+    SunOS) echo "############################################" >> $output_file
+           echo "## Generic Network Info" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           netstat -r | grep default >> $output_file
+           echo `hostname` >> $output_file
+           echo `domainname` >> $output_file
+           ;;
+esac
 echo "" >> $output_file
 echo "" >> $output_file
 echo "############################################" >> $output_file
@@ -158,95 +256,203 @@ echo "## ip address info" >> $output_file
 echo "############################################" >> $output_file
 echo "" >> $output_file
 echo "" >> $output_file
-ip addr | tee -a $output_file
+ifconfig -a | tee -a $output_file
 echo "" >> $output_file
 echo "" >> $output_file
-echo "############################################" >> $output_file
-echo "## running routing table" >> $output_file
-echo "############################################" >> $output_file
+case $os_type in
+	Linux)   echo "############################################" >> $output_file
+           echo "## Routing Table" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           ip ro | tee -a $output_file
+           ;;
+    AIX)   echo "############################################" >> $output_file
+           echo "## Routing Table" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           netstat -rn | grep default >> $output_file
+           ;;
+    SunOS) echo "############################################" >> $output_file
+           echo "## Routing Table" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           netstat -rn | grep default >> $output_file
+           ;;
+esac
 echo "" >> $output_file
 echo "" >> $output_file
-ip ro | tee -a $output_file
+case $os_type in
+	Linux)   echo "############################################" >> $output_file
+           echo "## Listening Ports" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           netstat -ntlp | tee -a $output_file
+           ;;
+    AIX)   echo "############################################" >> $output_file
+           echo "## Listening Ports" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           netstat -an | grep -i listen >> $output_file
+           ;;
+    SunOS) echo "############################################" >> $output_file
+           echo "## Listening Ports" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           netstat -an | grep -i listen >> $output_file
+           ;;
+esac
 echo "" >> $output_file
 echo "" >> $output_file
-echo "############################################" >> $output_file
-echo "## listening ports" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-netstat -ntlp | tee -a $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-echo "############################################" >> $output_file
-echo "## start network interface configs" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-for i in `ls -1 /etc/sysconfig/network-scripts/ifcfg-*`
-do
-    echo "-++- $i -++-" >> $output_file
-    cat $i >> $output_file
-    echo "" >> $output_file
-    echo "" >> $output_file
-done
-echo "############################################" >> $output_file
-echo "## routing configs" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-for i in `ls -1 /etc/sysconfig/network-scripts/route-*`
-do
-    echo "-++- $i -++-" >> $output_file
-    cat $i >> $output_file
-    echo "" >> $output_file
-    echo "" >> $output_file
-done
+case $os_type in
+	Linux) echo "############################################" >> $output_file
+           echo "## Network Interface Configuration" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           for i in `ls -1 /etc/sysconfig/network-scripts/ifcfg-*`
+           do
+               echo "-++- $i -++-" >> $output_file
+               cat $i >> $output_file
+               echo "" >> $output_file
+               echo "" >> $output_file
+           done
+           echo "############################################" >> $output_file
+           echo "## Routing Configuration Files" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           for i in `ls -1 /etc/sysconfig/network-scripts/route-*`
+           do
+               echo "-++- $i -++-" >> $output_file
+               cat $i >> $output_file
+               echo "" >> $output_file
+               echo "" >> $output_file
+           done
+           echo "" >> $output_file
+           echo "" >> $output_file
+           ;;
+    AIX)   echo "############################################" >> $output_file
+           echo "## Network Interface Configuration" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           for i in `lsdev -Cc if | grep en | awk '{print $1}'`; do echo "-++- $i -++-"; lsattr -El $i; echo ""; done >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           ;;
+    SunOS) echo "############################################" >> $output_file
+           echo "## Interface Files" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           for i in `ls -1 /etc/hostname.*`; do echo "-++- $i -++-"; cat $i; echo ""; done >> $output_file
+           echo /etc/nodename >> $output_file
+           echo /etc/defaultdomain >> $output_file
+           echo /etc/defaultrouter >> $output_file
+           echo /etc/hosts >> $output_file
+           echo /etc/netmasks >> $output_file
+           ;;
+esac
 
-# Get installed package listing
-echo "############################################" >> $output_file
-echo "## installed package listing" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-rpm -qa | sort | tee -a $output_file
+case $os_type in
+	Linux)   echo "############################################" >> $output_file
+           echo "## installed package listing" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           rpm -qa | sort | tee -a $output_file
+           ;;
+    AIX)   echo "############################################" >> $output_file
+           echo "## installed package listing" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           lslpp -w >> $output_file
+           ;;
+    SunOS) echo "############################################" >> $output_file
+           echo "## installed package listing" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           pkginfo >> $output_file
+           ;;
+esac
 echo "" >> $output_file
 echo "" >> $output_file
 
 # Get yum config
-echo "############################################" >> $output_file
-echo "## YUM config file - /etc/yum.conf" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-cat /etc/yum.conf >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-echo "############################################" >> $output_file
-echo "## YUM Repos - /etc/yum.repos.d/" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-for i in `ls -1 /etc/yum.repos.d/*`
-do
-    echo "-++- $i -++-" >> $output_file
-    cat $i >> $output_file
-    echo "" >> $output_file
-    echo "" >> $output_file
-done
+case $os_type in
+	Linux) echo "############################################" >> $output_file
+           echo "## YUM config file - /etc/yum.conf" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           cat /etc/yum.conf >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           echo "############################################" >> $output_file
+           echo "## YUM Repos - /etc/yum.repos.d/" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           for i in `ls -1 /etc/yum.repos.d/*`
+           do
+               echo "-++- $i -++-" >> $output_file
+               cat $i >> $output_file
+               echo "" >> $output_file
+               echo "" >> $output_file
+           done
+           ;;
+esac
 
 # Get the crontabs for all users
-echo "############################################" >> $output_file
-echo "## user crontabs" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-for i in `ls -1 /var/spool/cron/*`
-do
-    echo "-++- $i -++-" >> $output_file
-    cat $i >> $output_file
-    echo "" >> $output_file
-    echo "" >> $output_file
-done
+case $os_type in
+	Linux)   echo "############################################" >> $output_file
+           echo "## user crontabs" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           for i in `ls -1 /var/spool/cron/*`
+           do
+               echo "-++- $i -++-" >> $output_file
+               cat $i >> $output_file
+               echo "" >> $output_file
+               echo "" >> $output_file
+           done
+           ;;
+    AIX)   echo "############################################" >> $output_file
+           echo "## user crontabs" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           for i in `ls -1 /var/spool/cron/crontabs/*`
+           do
+               echo "-++- $i -++-" >> $output_file
+               cat $i >> $output_file
+               echo "" >> $output_file
+               echo "" >> $output_file
+           done
+           ;;
+    SunOS) echo "############################################" >> $output_file
+           echo "## user crontabs" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           for i in `ls -1 /var/spool/cron/crontabs/*`
+           do
+               echo "-++- $i -++-" >> $output_file
+               cat $i >> $output_file
+               echo "" >> $output_file
+               echo "" >> $output_file
+           done
+           ;;
+esac
 
 # Get the MPIO config
 echo "############################################" >> $output_file
@@ -260,8 +466,9 @@ echo "" >> $output_file
 
 # Get the multipath udev rules config
 echo "############################################" >> $output_file
-echo "## /etc/udev/rules.d/96-multipath.rules" >> $output_file
+echo "## /etc/udev/rules.d/*-multipath.rules" >> $output_file
 echo "############################################" >> $output_file
 echo "" >> $output_file
 echo "" >> $output_file
-cat /etc/udev/rules.d/96-multipath.rules >> $output_file
+ls -l /etc/udev/rules.d/*-multipath.rules >> $output_file
+cat /etc/udev/rules.d/*-multipath.rules >> $output_file

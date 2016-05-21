@@ -272,14 +272,14 @@ case $os_type in
            echo "############################################" >> $output_file
            echo "" >> $output_file
            echo "" >> $output_file
-           netstat -rn | grep default >> $output_file
+           netstat -rn >> $output_file
            ;;
     SunOS) echo "############################################" >> $output_file
            echo "## Routing Table" >> $output_file
            echo "############################################" >> $output_file
            echo "" >> $output_file
            echo "" >> $output_file
-           netstat -rn | grep default >> $output_file
+           netstat -rn >> $output_file
            ;;
 esac
 echo "" >> $output_file
@@ -352,11 +352,16 @@ case $os_type in
            echo "" >> $output_file
            echo "" >> $output_file
            for i in `ls -1 /etc/hostname.*`; do echo "-++- $i -++-"; cat $i; echo ""; done >> $output_file
-           echo /etc/nodename >> $output_file
-           echo /etc/defaultdomain >> $output_file
-           echo /etc/defaultrouter >> $output_file
-           echo /etc/hosts >> $output_file
-           echo /etc/netmasks >> $output_file
+           echo "-++- /etc/nodename -++-" >> $output_file
+           cat /etc/nodename >> $output_file
+           echo "-++- /etc/defaultdomain -++-" >> $output_file
+           cat /etc/defaultdomain >> $output_file
+           echo "-++- /etc/defaultrouter -++-" >> $output_file
+           cat /etc/defaultrouter >> $output_file
+           echo "-++- /etc/hosts -++-" >> $output_file
+           cat /etc/hosts >> $output_file
+           echo "-++- /etc/netmasks -++-" >> $output_file
+           cat /etc/netmasks >> $output_file
            ;;
 esac
 

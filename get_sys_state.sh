@@ -209,7 +209,7 @@ case $os_type in
            echo "############################################" >> $output_file
            echo "" >> $output_file
            echo "" >> $output_file
-           echo `lsfilt` >> $output_file
+           lsfilt | tee -a $output_file
            ;;
     SunOS) echo "############################################" >> $output_file
            echo "## Firewall Configuration" >> $output_file

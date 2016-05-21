@@ -459,21 +459,59 @@ case $os_type in
            ;;
 esac
 
-# Get the MPIO config
-echo "############################################" >> $output_file
-echo "## /etc/multipath.conf" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
-cat /etc/multipath.conf >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
+case $os_type in
+	Linux) # Get the MPIO config
+           echo "############################################" >> $output_file
+           echo "## /etc/multipath.conf" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           cat /etc/multipath.conf >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           
+           # Get the multipath udev rules config
+           echo "############################################" >> $output_file
+           echo "## /etc/udev/rules.d/*-multipath.rules" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           ls -l /etc/udev/rules.d/*-multipath.rules >> $output_file
+           cat /etc/udev/rules.d/*-multipath.rules >> $output_file
+           ;;
+esac
 
-# Get the multipath udev rules config
-echo "############################################" >> $output_file
-echo "## /etc/udev/rules.d/*-multipath.rules" >> $output_file
-echo "############################################" >> $output_file
-echo "" >> $output_file
-echo "" >> $output_file
+case $os_type in
+	AIX)   # Get the SAN FC apadter information
+           echo "############################################" >> $output_file
+           echo "## FC Adapter Info" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           sanlun fcp show adapter -v all | tee -a $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+
+           # Get the EMC PowerPath Device info
+           echo "############################################" >> $output_file
+           echo "## EMC PowerPath Info" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           powermt display dev=all | tee -a $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+
+           # Get complete disk listing
+           echo "############################################" >> $output_file
+           echo "## Disk Listing" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           lsdev -Ccdisk | tee -a $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           ;;
+esac
 ls -l /etc/udev/rules.d/*-multipath.rules >> $output_file
 cat /etc/udev/rules.d/*-multipath.rules >> $output_file

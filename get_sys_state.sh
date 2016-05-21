@@ -122,7 +122,7 @@ echo "## Mounted Filesystems" >> $output_file
 echo "############################################" >> $output_file
 echo "" >> $output_file
 echo "" >> $output_file
-df -hT | tee -a $output_file
+echo `mount` >> $output_file
 echo "" >> $output_file
 echo "" >> $output_file
 # Filesystem Usage

@@ -23,9 +23,8 @@ Currently the script takes no commandline options
 ```
 
 ##To Do
-- Add additional checks for OS type
-- Make this work for AIX and Solaris
-- Make this work for other RHEL distros as well as other Linux
+- Cleanup redundnant header printouts
+- Reorganize the code so that it flows better
 
 ##What the script gets
 - Hostname of the system

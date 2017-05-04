@@ -47,3 +47,5 @@ Currently the script takes no commandline options
 - Contents of */etc/passwd*
 - Contents of */etc/group*
 - Contents of */etc/shadow*
+- MPIO rules
+- DM permission rules

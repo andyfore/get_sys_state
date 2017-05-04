@@ -49,3 +49,10 @@ Currently the script takes no commandline options
 - Contents of */etc/shadow*
 - MPIO rules
 - DM permission rules
+- List of Solaris zones configured (Solaris)
+- List of zpools configured (Solaris)
+- Status of zpools configured (Solaris)
+- iSCSI initiator information (Solaris)
+- iSCSI discovery settings (Solaris)
+- iSCSI discovery address information (Solaris)
+- iSCSI targets (Solaris)

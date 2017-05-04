@@ -533,3 +533,73 @@ case $os_type in
            echo "" >> $output_file
            ;;
 esac
+case $os_type in
+	SunOS)  # Get the zone information
+		echo "############################################" >> $output_file
+		echo "## Zone List" >> $output_file
+		echo "############################################" >> $output_file
+		echo "" >> $output_file
+		echo "" >> $output_file
+		/usr/sbin/zoneadm list -vi >> $output_file
+    echo "" >> $output_file
+    echo "" >> $output_file
+		;;
+esac
+
+case $os_type in
+	SunOS) # Get the zfs information
+    echo "############################################" >> $output_file
+    echo "## Zpool List" >> $output_file
+    echo "############################################" >> $output_file
+		echo "" >> $output_file
+		echo "" >> $output_file
+		zpool list
+    echo "" >> $output_file
+    echo "" >> $output_file
+    echo "############################################" >> $output_file
+    echo "## Zpool status" >> $output_file
+    echo "############################################" >> $output_file
+    echo "" >> $output_file
+    echo "" >> $output_file
+		zpool status
+    echo "" >> $output_file
+    echo "" >> $output_file
+		;;
+esac
+
+case $os_type in
+	SunOS) # Get the iscsi information
+    echo "############################################" >> $output_file
+    echo "## iSCSI initiator-node" >> $output_file
+    echo "############################################" >> $output_file
+    echo "" >> $output_file
+    echo "" >> $output_file
+    iscsiadm list initiator-node
+    echo "" >> $output_file
+    echo "" >> $output_file
+    echo "############################################" >> $output_file
+    echo "## iSCSI discovery settings" >> $output_file
+    echo "############################################" >> $output_file
+    echo "" >> $output_file
+    echo "" >> $output_file
+    iscsiadm list discovery
+    echo "" >> $output_file
+    echo "" >> $output_file
+    echo "############################################" >> $output_file
+    echo "## iSCSI discovery address info" >> $output_file
+    echo "############################################" >> $output_file
+    echo "" >> $output_file
+    echo "" >> $output_file
+    iscsiadm list discovery-address -v
+    echo "" >> $output_file
+    echo "" >> $output_file
+    echo "############################################" >> $output_file
+    echo "## iSCSI targets" >> $output_file
+    echo "############################################" >> $output_file
+    echo "" >> $output_file
+    echo "" >> $output_file
+    iscsiadm list target -vS
+    echo "" >> $output_file
+    echo "" >> $output_file
+		;;
+esac

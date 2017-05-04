@@ -511,7 +511,25 @@ case $os_type in
            lsdev -Ccdisk | tee -a $output_file
            echo "" >> $output_file
            echo "" >> $output_file
+           # Get the MPIO rules
+           echo "############################################" >> $output_file
+           echo "## MPIO rules" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           ls -l /etc/udev/rules.d/*-multipath.rules >> $output_file
+           cat /etc/udev/rules.d/*-multipath.rules >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           # Get the dm permission rules
+           echo "############################################" >> $output_file
+           echo "## DM permission rules" >> $output_file
+           echo "############################################" >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
+           ls -l /etc/udev/rules.d/*-dm-permissions.rules >> $output_file
+           cat /etc/udev/rules.d/*-dm-permissions.rules >> $output_file
+           echo "" >> $output_file
+           echo "" >> $output_file
            ;;
 esac
-ls -l /etc/udev/rules.d/*-multipath.rules >> $output_file
-cat /etc/udev/rules.d/*-multipath.rules >> $output_file

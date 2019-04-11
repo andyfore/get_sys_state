@@ -332,7 +332,8 @@ case $os_type in
                echo "" >> $output_file
                echo "" >> $output_file
            done
-if [ -f /etc/sysconfig/network-scripts/route-* ]; then
+#if [ -f /etc/sysconfig/network-scripts/route-* ]; then
+if ls /etc/sysconfig/network-scripts/route-* 1> /dev/null 2>&1; then
            echo "############################################" >> $output_file
            echo "## Routing Configuration Files" >> $output_file
            echo "############################################" >> $output_file
@@ -431,7 +432,8 @@ esac
 # Get the crontabs for all users
 case $os_type in
         Linux)
-if [ -f /var/spool/cron/* ]; then
+#if [ -f /var/spool/cron/* ]; then
+if ls /var/spool/cron/* 1> /dev/null 2>&1; then
            echo "############################################" >> $output_file
            echo "## user crontabs" >> $output_file
            echo "############################################" >> $output_file
@@ -486,14 +488,26 @@ if [ -f /etc/multipath.conf ]; then
            echo "" >> $output_file
            echo "" >> $output_file
 
-           # Get the multipath udev rules config
-           echo "############################################" >> $output_file
-           echo "## /etc/udev/rules.d/*-multipath.rules" >> $output_file
-           echo "############################################" >> $output_file
-           echo "" >> $output_file
-           echo "" >> $output_file
-           ls -l /etc/udev/rules.d/*-multipath.rules >> $output_file
-           cat /etc/udev/rules.d/*-multipath.rules >> $output_file
+    if ls /etc/udev/rules.d/*-multipath.rules 1> /dev/null 2>&1; then
+               # Get the multipath udev rules config
+               echo "############################################" >> $output_file
+               echo "## /etc/udev/rules.d/*-multipath.rules" >> $output_file
+               echo "############################################" >> $output_file
+               echo "" >> $output_file
+               echo "" >> $output_file
+               ls -l /etc/udev/rules.d/*-multipath.rules >> $output_file
+               cat /etc/udev/rules.d/*-multipath.rules >> $output_file
+    fi
+    if [ -f 12-dm-permissions.rules ]; then
+               # Get the multipath udev rules config
+               echo "############################################" >> $output_file
+               echo "## /etc/udev/rules.d/12-dm-permissions.rules" >> $output_file
+               echo "############################################" >> $output_file
+               echo "" >> $output_file
+               echo "" >> $output_file
+               ls -l /etc/udev/rules.d/12-dm-permissions.rules >> $output_file
+               cat /etc/udev/rules.d/12-dm-permissions.rules >> $output_file
+    fi
 fi
            ;;
 esac

@@ -332,7 +332,6 @@ case $os_type in
                echo "" >> $output_file
                echo "" >> $output_file
            done
-#if [ -f /etc/sysconfig/network-scripts/route-* ]; then
 if ls /etc/sysconfig/network-scripts/route-* 1> /dev/null 2>&1; then
            echo "############################################" >> $output_file
            echo "## Routing Configuration Files" >> $output_file
